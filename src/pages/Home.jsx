@@ -28,7 +28,7 @@ const Home = () => {
         {events.map((e) => (
           <Link
             to={`/app/events/${e.id}`}
-            className="bg-white p-5 mb-3 flex gap-5 rounded-xl shadow"
+            className="bg-white p-5 mb-3 flex items-center gap-5 rounded-xl shadow"
           >
             <p className="w-full">{e.device.name}</p>
             <p className="w-full text-center">{e.type}</p>

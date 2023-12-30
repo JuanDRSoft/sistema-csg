@@ -101,6 +101,19 @@ const AuthProvider = ({ children }) => {
       });
   };
 
+  const updateNota = (body, id, type) => {
+    db.collection("events")
+      .doc(id)
+      .update({ notas: body, status: type })
+      .then(() => {
+        toast.success("Nota agregada correctamente");
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("No se pudo editar el vehiculo intenta nuevamente");
+      });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -110,6 +123,7 @@ const AuthProvider = ({ children }) => {
         usuarioData,
         onLogin,
         events,
+        updateNota,
       }}
     >
       {children}

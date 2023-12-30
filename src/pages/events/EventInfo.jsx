@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { db } from "../../../firebase";
 import mapboxgl from "mapbox-gl";
 import SetStatus from "../../components/events/SetStatus";
+import useAuth from "../../hooks/useAuth";
+import moment from "moment";
 
 const EventInfo = () => {
   const [loading, setLoading] = useState(true);
@@ -10,6 +12,8 @@ const EventInfo = () => {
   const [nota, setNota] = useState({});
   const params = useParams();
   mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
+
+  const { updateNota } = useAuth();
 
   const myLocation = () => {
     const map = new mapboxgl.Map({
@@ -59,6 +63,12 @@ const EventInfo = () => {
       myLocation();
     }
   }, [event]);
+
+  const addNote = () => {
+    const body = [...(event?.notas || []), nota];
+    updateNota(body, params.id, nota.type);
+    setNota({});
+  };
 
   return (
     <div>
@@ -185,7 +195,16 @@ const EventInfo = () => {
         <div className="">
           {nota.type && (
             <div className="bg-white rounded-xl shadow p-5">
-              <h1 className="text-center font-bold">Nota</h1>
+              <h1 className="text-center font-bold">Nota </h1>
+              <p
+                className={`text-center ${
+                  nota.type == "Processed"
+                    ? "bg-green-200 text-green-700"
+                    : "bg-yellow-200 text-yellow-700"
+                } rounded-xl mt-2`}
+              >
+                {nota.type}
+              </p>
               <hr className="mt-2 mb-2" />
 
               <label>Escribe una nota</label>
@@ -194,13 +213,31 @@ const EventInfo = () => {
                 onChange={(e) => setNota({ ...nota, nota: e.target.value })}
               />
 
-              <button className="mt-2 bg-gradient-to-r from-blue-500 to-cyan-400 w-full text-white font-medium p-1 rounded-xl">
+              <button
+                onClick={addNote}
+                className="mt-2 bg-gradient-to-r from-blue-500 to-cyan-400 w-full text-white font-medium p-1 rounded-xl"
+              >
                 GUARDAR
               </button>
             </div>
           )}
 
-          <div></div>
+          {event?.notas && (
+            <div>
+              <h1 className="mb-3 font-bold pl-2 text-xl">Notas</h1>
+              {event?.notas?.map((e) => (
+                <div className="bg-white p-4 mb-3 rounded-xl shadow">
+                  <p className="font-semibold">
+                    {e.type} -{" "}
+                    {moment(new Date(e.date * 1000)).format(
+                      "DD/MM/YYYY HH:mm:ss"
+                    )}
+                  </p>
+                  <p>{e.nota}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

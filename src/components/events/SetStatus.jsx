@@ -17,7 +17,7 @@ const SetStatus = ({ status, id, setNota }) => {
         <div>
           <Menu.Button
             className={`flex items-center gap-2 ${
-              status == "processed"
+              status == "Processed"
                 ? "bg-green-200 text-green-700"
                 : "bg-yellow-200 text-yellow-700"
             } p-2 rounded-xl px-5`}
