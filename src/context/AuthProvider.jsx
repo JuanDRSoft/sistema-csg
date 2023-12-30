@@ -10,6 +10,7 @@ const AuthProvider = ({ children }) => {
   const [cargando, setCargando] = useState(true);
   const [authUser, setAuthUser] = useState({});
   const [usuarioData, setUsuarioData] = useState({});
+  const [events, setEvents] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -52,6 +53,18 @@ const AuthProvider = ({ children }) => {
         console.error("Error al escuchar cambios en el documento:", error);
       }
     );
+
+    db.collection("events").onSnapshot(manejarSnapshot);
+
+    function manejarSnapshot(snapshot) {
+      let platillos = snapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
+      });
+      setEvents(platillos);
+    }
   }, [authUser]);
 
   const cerrarSesionAuth = () => {
@@ -60,8 +73,8 @@ const AuthProvider = ({ children }) => {
       .then(function () {
         // Cierre de sesión exitoso
         toast.success("Cierre de sesión exitoso");
+        setAuthUser({});
         navigate("/");
-        setAuth({});
       })
       .catch(function (error) {
         // Manejar errores al cerrar sesión
@@ -69,9 +82,35 @@ const AuthProvider = ({ children }) => {
       });
   };
 
+  const onLogin = (email, password, e) => {
+    e.preventDefault();
+
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then(function (userCredential) {
+        var user = userCredential.user;
+        if (user) {
+          navigate("/app");
+          toast.success(`Hola ${authUser.displayName} bienvenido !`);
+        }
+      })
+      .catch(function (error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        toast.error("Verifica los datos ingresados");
+      });
+  };
+
   return (
     <AuthContext.Provider
-      value={{ cargando, cerrarSesionAuth, authUser, usuarioData }}
+      value={{
+        cargando,
+        cerrarSesionAuth,
+        authUser,
+        usuarioData,
+        onLogin,
+        events,
+      }}
     >
       {children}
     </AuthContext.Provider>

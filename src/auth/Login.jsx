@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "/logo.svg";
+import useAuth from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { onLogin, authUser } = useAuth();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (authUser.uid) {
+      navigate("/app");
+    }
+  }, [authUser]);
+
   return (
     <div className="w-screen h-screen bg-gray-200 flex justify-center items-center">
       <div>
@@ -9,12 +23,24 @@ const Login = () => {
           <img src={Logo} className="w-24" />
         </div>
 
-        <form>
+        <form onSubmit={(e) => onLogin(email, password, e)}>
           <p className="text-center mb-5 font-semibold">
             Inicia Sesión en tu cuenta
           </p>
-          <input placeholder="Email" className="w-full p-3 mb-4" />
-          <input placeholder="Password" className="w-full p-3 mb-4" />
+          <input
+            type="email"
+            placeholder="Email"
+            className="w-full p-3 mb-4"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full p-3 mb-4"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
           <div>
             <input type="checkbox" className="mr-2" />{" "}
@@ -24,7 +50,10 @@ const Login = () => {
           </div>
 
           <div className="mt-10 flex justify-center">
-            <button className="text-white bg-gray-500 font-semibold p-2 w-[50%]">
+            <button
+              type="submit"
+              className="text-white bg-gray-500 font-semibold p-2 w-[50%]"
+            >
               LOGIN
             </button>
           </div>

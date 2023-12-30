@@ -2,8 +2,11 @@ import React from "react";
 import { Link, Outlet } from "react-router-dom";
 import Logo from "/logo.svg";
 import Profile from "/profile-placeholder.jpg";
+import useAuth from "../hooks/useAuth";
 
 const DashboardLayout = () => {
+  const { cerrarSesionAuth } = useAuth();
+
   const openMenu = () => {
     document.getElementById("menu").classList.toggle("-translate-x-[350px]");
     document.getElementById("back").classList.toggle("-translate-x-[100%]");
@@ -96,9 +99,12 @@ const DashboardLayout = () => {
             </li>
 
             <li className="mt-4 px-10 p-3 duration-300 cursor-pointer hover:bg-gray-700 font-semibold">
-              <Link to="/" className="w-full flex items-center gap-3 text-lg">
+              <button
+                onClick={cerrarSesionAuth}
+                className="w-full flex items-center gap-3 text-lg"
+              >
                 <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
-              </Link>
+              </button>
             </li>
           </ul>
         </div>
