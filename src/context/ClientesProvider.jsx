@@ -119,6 +119,20 @@ const ClientProvider = ({ children }) => {
       });
   };
 
+  const updateProduct = (body, id, initial) => {
+    db.collection("inventario")
+      .doc(id)
+      .update(body)
+      .then(() => {
+        toast.success("Inventario modificado correctamente");
+        initial();
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("No se pudo crear la nota intenta nuevamente");
+      });
+  };
+
   return (
     <ClientContext.Provider
       value={{
@@ -130,6 +144,7 @@ const ClientProvider = ({ children }) => {
         deleteClient,
         inventory,
         createProduct,
+        updateProduct,
       }}
     >
       {children}

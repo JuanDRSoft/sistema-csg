@@ -34,6 +34,7 @@ function App() {
               {/* Inventario */}
               <Route path="/app/inventario" element={<Inventario />} />
               <Route path="/app/inventario/new" element={<FormInventario />} />
+              <Route path="/app/inventario/:id" element={<FormInventario />} />
 
               <Route path="/app/servicios" element={<Servicios />} />
               <Route path="/app/contratos" element={<Contratos />} />
