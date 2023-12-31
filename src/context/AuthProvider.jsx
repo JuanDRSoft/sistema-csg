@@ -54,7 +54,7 @@ const AuthProvider = ({ children }) => {
       }
     );
 
-    db.collection("events").onSnapshot(manejarSnapshot);
+    db.collection("events").orderBy("time").onSnapshot(manejarSnapshot);
 
     function manejarSnapshot(snapshot) {
       let platillos = snapshot.docs.map((doc) => {

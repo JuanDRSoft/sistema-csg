@@ -47,7 +47,7 @@ const Home = () => {
               >
                 <p className="w-full">{e.device.name}</p>
                 <p className="w-full text-center">{e.type}</p>
-                <p className="w-full text-end">{e.device.created_at}</p>
+                <p className="w-full text-end">{e.time}</p>
               </Link>
             ))}
 
@@ -61,7 +61,7 @@ const Home = () => {
               >
                 <p className="w-full">{e.device.name}</p>
                 <p className="w-full text-center">{e.type}</p>
-                <p className="w-full text-end">{e.device.created_at}</p>
+                <p className="w-full text-end">{e.time}</p>
               </Link>
             ))}
       </div>
