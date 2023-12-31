@@ -10,6 +10,7 @@ const ClientProvider = ({ children }) => {
   const [cargando, setCargando] = useState(true);
   const [authUser, setAuthUser] = useState({});
   const [clients, setClients] = useState([]);
+  const [inventory, setInventory] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +24,18 @@ const ClientProvider = ({ children }) => {
         };
       });
       setClients(platillos);
+    }
+
+    db.collection("inventario").onSnapshot(manejarSnapshotInv);
+
+    function manejarSnapshotInv(snapshot) {
+      let platillos = snapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
+      });
+      setInventory(platillos);
     }
   }, []);
 
@@ -92,6 +105,20 @@ const ClientProvider = ({ children }) => {
       });
   };
 
+  const createProduct = (body, initial) => {
+    db.collection("inventario")
+      .doc()
+      .set(body)
+      .then(() => {
+        toast.success("Producto creado correctamente");
+        initial();
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("No se pudo crear el cliente intenta nuevamente");
+      });
+  };
+
   return (
     <ClientContext.Provider
       value={{
@@ -101,6 +128,8 @@ const ClientProvider = ({ children }) => {
         updateGps,
         updateNota,
         deleteClient,
+        inventory,
+        createProduct,
       }}
     >
       {children}

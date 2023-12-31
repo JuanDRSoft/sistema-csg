@@ -5,6 +5,7 @@ import mapboxgl from "mapbox-gl";
 import SetStatus from "../../components/events/SetStatus";
 import useAuth from "../../hooks/useAuth";
 import moment from "moment";
+import Back from "../../utils/Back";
 
 const EventInfo = () => {
   const [loading, setLoading] = useState(true);
@@ -72,7 +73,9 @@ const EventInfo = () => {
 
   return (
     <div>
-      <h1 className="font-bold text-3xl mb-10">Evento</h1>
+      <h1 className="font-bold text-3xl mb-10">
+        <Back /> Evento
+      </h1>
 
       <div id="map" className="w-full h-[40vh]"></div>
 

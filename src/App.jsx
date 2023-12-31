@@ -13,6 +13,7 @@ import { ClientProvider } from "./context/ClientesProvider";
 import ClientInfo from "./pages/clientes/ClientInfo";
 import EventInfo from "./pages/events/EventInfo";
 import "mapbox-gl/dist/mapbox-gl.css";
+import FormInventario from "./components/inventario/FormInventario";
 
 function App() {
   return (
@@ -30,9 +31,12 @@ function App() {
               <Route path="/app/clientes" element={<Clientes />} />
               <Route path="/app/clientes/:id" element={<ClientInfo />} />
 
+              {/* Inventario */}
+              <Route path="/app/inventario" element={<Inventario />} />
+              <Route path="/app/inventario/new" element={<FormInventario />} />
+
               <Route path="/app/servicios" element={<Servicios />} />
               <Route path="/app/contratos" element={<Contratos />} />
-              <Route path="/app/inventario" element={<Inventario />} />
               <Route path="/app/inspeccion" element={<Inspeccion />} />
               <Route path="/app/ajustes" element={<Ajustes />} />
             </Route>
