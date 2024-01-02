@@ -11,6 +11,7 @@ const ClientProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState({});
   const [clients, setClients] = useState([]);
   const [inventory, setInventory] = useState([]);
+  const [contratos, setContratos] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,6 +37,18 @@ const ClientProvider = ({ children }) => {
         };
       });
       setInventory(platillos);
+    }
+
+    db.collection("contratos").onSnapshot(manejarSnapshotContra);
+
+    function manejarSnapshotContra(snapshot) {
+      let platillos = snapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
+      });
+      setContratos(platillos);
     }
   }, []);
 
@@ -133,6 +146,20 @@ const ClientProvider = ({ children }) => {
       });
   };
 
+  const createContrato = (body, initial) => {
+    db.collection("contratos")
+      .doc()
+      .set(body)
+      .then(() => {
+        toast.success("Contrato creado correctamente");
+        initial();
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("No se pudo crear intenta nuevamente");
+      });
+  };
+
   return (
     <ClientContext.Provider
       value={{
@@ -145,6 +172,8 @@ const ClientProvider = ({ children }) => {
         inventory,
         createProduct,
         updateProduct,
+        contratos,
+        createContrato,
       }}
     >
       {children}
