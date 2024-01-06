@@ -1,11 +1,23 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const Back = () => {
+const Back = ({ msg }) => {
   const navigate = useNavigate();
 
-  const handleGoBack = () => {
-    navigate(-1); // También puedes usar navigate('back')
+  const handleGoBack = (e) => {
+    if (msg) {
+      var confirmacion = confirm(
+        "¿Estás seguro de que deseas salir del evento sin procesar?"
+      );
+
+      if (confirmacion) {
+        navigate(-1);
+      } else {
+        console.log("Eliminación cancelada");
+      }
+    } else {
+      navigate(-1);
+    }
   };
 
   return (

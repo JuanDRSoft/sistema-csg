@@ -16,6 +16,14 @@ const EventInfo = () => {
 
   const { updateNota } = useAuth();
 
+  window.addEventListener("beforeunload", function (event) {
+    event.preventDefault();
+    var mensaje =
+      "¿Estás seguro de que deseas abandonar la página? Se perderán los cambios no guardados.";
+    event.returnValue = mensaje;
+    return mensaje;
+  });
+
   const myLocation = () => {
     const map = new mapboxgl.Map({
       container: "map",
@@ -74,7 +82,7 @@ const EventInfo = () => {
   return (
     <div>
       <h1 className="font-bold text-3xl mb-10">
-        <Back /> Evento
+        <Back msg={true} /> Evento
       </h1>
 
       <div id="map" className="w-full h-[40vh]"></div>
