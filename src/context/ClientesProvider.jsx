@@ -146,6 +146,52 @@ const ClientProvider = ({ children }) => {
       });
   };
 
+  const updateInventory = (body, id, initial, gpsData, client) => {
+    db.collection("clientes")
+      .doc(client)
+      .update({ gps: gpsData })
+      .then(() => {
+        db.collection("inventario")
+          .doc(id)
+          .update({ equipos: body })
+          .then(() => {
+            toast.success("GPS modificado correctamente");
+            initial();
+          })
+          .catch((error) => {
+            console.log(error);
+            toast.error("No se pudo seleccionar GPS intenta nuevamente");
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("No se pudo editar el gps intenta nuevamente");
+      });
+  };
+
+  const updateInventorySim = (body, id, initial, gpsData, client) => {
+    db.collection("clientes")
+      .doc(client)
+      .update({ gps: gpsData })
+      .then(() => {
+        db.collection("inventario")
+          .doc(id)
+          .update({ sim: body })
+          .then(() => {
+            toast.success("GPS modificado correctamente");
+            initial();
+          })
+          .catch((error) => {
+            console.log(error);
+            toast.error("No se pudo seleccionar SIM intenta nuevamente");
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("No se pudo editar el gps intenta nuevamente");
+      });
+  };
+
   const createContrato = (body, initial) => {
     db.collection("contratos")
       .doc()
@@ -174,6 +220,8 @@ const ClientProvider = ({ children }) => {
         updateProduct,
         contratos,
         createContrato,
+        updateInventory,
+        updateInventorySim,
       }}
     >
       {children}

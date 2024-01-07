@@ -6,6 +6,8 @@ import VehicleCard from "../../components/clientes/VehicleCard";
 import NewVehicle from "../../components/clientes/NewVehicle";
 import useClient from "../../hooks/useClient";
 import moment from "moment";
+import SelectImei from "../../components/clientes/SelectImei";
+import SelectSim from "../../components/clientes/SelectSim";
 
 const ClientInfo = () => {
   const [loading, setLoading] = useState(true);
@@ -210,32 +212,38 @@ const ClientInfo = () => {
 
           <div className="mt-2">
             <div className="mt-4 flex items-center gap-3">
-              <label className="font-bold w-[40%]">Imei:</label>
-              <input
+              <label className="font-bold">Imei:</label>
+              {/* <input
                 placeholder="sin registro"
                 className="border rounded border-black pl-3 w-full disabled:border-none bg-white"
                 disabled={showGps}
                 value={gpsData.imei}
                 onChange={(e) => setGps({ ...gpsData, imei: e.target.value })}
-              />
+              /> */}
+
+              <div className="w-full">
+                <SelectImei setGps={setGps} gpsData={gpsData} />
+              </div>
             </div>
 
             <div className="mt-4 flex items-center gap-3">
-              <label className="font-bold w-[40%]">Sim Card:</label>
-              <input
+              <label className="font-bold">Sim Card:</label>
+              {/* <input
                 placeholder="sin registro"
                 className="border rounded border-black pl-3 w-full disabled:border-none bg-white"
                 disabled={showGps}
                 value={gpsData.sim}
                 onChange={(e) => setGps({ ...gpsData, sim: e.target.value })}
-              />
+              /> */}
+              <div className="w-full">
+                <SelectSim setGps={setGps} gpsData={gpsData} />
+              </div>
             </div>
             <div className="mt-4 flex items-center gap-3">
               <label className="font-bold w-[40%]">Hoja de Servicio:</label>
               <input
                 placeholder="sin registro"
                 className="border rounded border-black pl-3 w-full disabled:border-none bg-white"
-                disabled={showGps}
                 value={gpsData.hojaServicio}
                 onChange={(e) =>
                   setGps({ ...gpsData, hojaServicio: e.target.value })
@@ -247,7 +255,6 @@ const ClientInfo = () => {
               <input
                 placeholder="sin registro"
                 className="border rounded border-black pl-3 w-full disabled:border-none bg-white"
-                disabled={showGps}
                 value={gpsData.tecnico}
                 onChange={(e) =>
                   setGps({ ...gpsData, tecnico: e.target.value })
@@ -257,24 +264,14 @@ const ClientInfo = () => {
           </div>
 
           <div className="flex mt-6">
-            {showGps ? (
-              <button
-                className="w-full p-1 text-white font-medium rounded bg-gradient-to-r from-blue-500 to-cyan-400"
-                onClick={() => setShowGps(!showGps)}
-              >
-                Modificar Datos
-              </button>
-            ) : (
-              <button
-                onClick={() => {
-                  updateGps(gpsData, params.id);
-                  setShowGps(!showGps);
-                }}
-                className="w-full p-1 text-white font-medium rounded bg-gradient-to-r from-blue-500 to-cyan-400"
-              >
-                Guardar Datos
-              </button>
-            )}
+            <button
+              onClick={() => {
+                updateGps(gpsData, params.id);
+              }}
+              className="w-full p-1 text-white font-medium rounded bg-gradient-to-r from-blue-500 to-cyan-400"
+            >
+              Guardar Datos
+            </button>
           </div>
         </div>
 

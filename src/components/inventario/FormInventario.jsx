@@ -35,7 +35,7 @@ const FormInventario = () => {
   };
 
   const addSim = () => {
-    setProduct({ ...product, sim: [...product.sim, sim] });
+    setProduct({ ...product, sim: [...(product.sim ? product.sim : []), sim] });
     setSim({
       telefonia: "",
       numero: "",
@@ -159,7 +159,7 @@ const FormInventario = () => {
       <div className="flex gap-5 mt-5">
         <div className="w-full bg-white p-5 rounded-xl shadow">
           <h1 className="font-medium mb-3">Equipos</h1>
-          {product.equipos.map((e) => (
+          {product.equipos?.map((e) => (
             <div className="bg-gray-100 p-3 rounded-xl text-center mb-3">
               {e.marca} - {e.modelo} - {e.imei}
             </div>
@@ -168,7 +168,7 @@ const FormInventario = () => {
 
         <div className="w-full bg-white p-5 rounded-xl shadow">
           <h1 className="font-medium mb-3">SIM CARD</h1>
-          {product.sim.map((e) => (
+          {product.sim?.map((e) => (
             <div className="bg-gray-100 p-3 rounded-xl text-center mb-2">
               {e.telefonia} - {e.numero}
             </div>

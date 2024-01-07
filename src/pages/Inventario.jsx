@@ -26,7 +26,7 @@ const Inventario = () => {
       </div>
 
       <div>
-        {inventory?.map((e) => (
+        {inventory.map((e) => (
           <InventarioCard producto={e} />
         ))}
       </div>
