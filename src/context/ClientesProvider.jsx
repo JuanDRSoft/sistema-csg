@@ -54,13 +54,14 @@ const ClientProvider = ({ children }) => {
 
   const createClient = (body, initial) => {
     db.collection("clientes")
-      .doc()
-      .set(body)
-      .then(() => {
+      .add(body)
+      .then((client) => {
         toast.success(
-          "Cliente creado correctamente, completa los datos restantes dando clic sobre el cliente"
+          "Cliente creado correctamente, completa los datos restantes",
+          3000
         );
         initial();
+        navigate(`/app/clientes/${client.id}`);
       })
       .catch((error) => {
         console.log(error);
