@@ -1,16 +1,41 @@
-import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import Logo from "/logo.svg";
 import Profile from "/profile-placeholder.jpg";
 import useAuth from "../hooks/useAuth";
 
 const DashboardLayout = () => {
   const { cerrarSesionAuth } = useAuth();
+  const location = useLocation().pathname;
+
+  const links = [
+    "events",
+    "clientes",
+    "servicios",
+    "contratos",
+    "inventario",
+    "inspeccion",
+    "ajustes",
+  ];
 
   const openMenu = () => {
     document.getElementById("menu").classList.toggle("-translate-x-[350px]");
     document.getElementById("back").classList.toggle("-translate-x-[100%]");
   };
+
+  useEffect(() => {
+    const split = location.split("/app/")[1];
+
+    for (let i = 0; i < links.length; i++) {
+      document.getElementById(links[i]).classList.remove("bg-gray-700");
+    }
+
+    if (!split) {
+      document.getElementById("events").classList.add("bg-gray-700");
+    } else {
+      document.getElementById(split).classList.add("bg-gray-700");
+    }
+  }, [location]);
 
   return (
     <div>
@@ -29,7 +54,10 @@ const DashboardLayout = () => {
 
         <div className="text-white mt-10">
           <ul>
-            <li className="mt-4 px-10 p-3 duration-300 cursor-pointer hover:bg-gradient-to-r font-semibold  from-pink-500 to-orange-300">
+            <li
+              id="events"
+              className="mt-4 px-10 p-3 duration-300 cursor-pointer hover:bg-gradient-to-r from-pink-500 to-orange-300 font-semibold"
+            >
               <Link
                 to="/app"
                 className="w-full flex items-center gap-3 text-lg"
@@ -38,7 +66,10 @@ const DashboardLayout = () => {
               </Link>
             </li>
 
-            <li className="mt-4 px-10 p-3 duration-300 cursor-pointer hover:bg-gray-700 font-semibold">
+            <li
+              id="clientes"
+              className="mt-4 px-10 p-3 duration-300 cursor-pointer hover:bg-gradient-to-r from-pink-500 to-orange-300 font-semibold"
+            >
               <Link
                 to="clientes"
                 className="w-full flex items-center gap-3 text-lg"
@@ -47,7 +78,10 @@ const DashboardLayout = () => {
               </Link>
             </li>
 
-            <li className="mt-4 px-10 p-3 duration-300 cursor-pointer hover:bg-gray-700 font-semibold">
+            <li
+              id="servicios"
+              className="mt-4 px-10 p-3 duration-300 cursor-pointer hover:bg-gradient-to-r from-pink-500 to-orange-300 font-semibold"
+            >
               <Link
                 to="servicios"
                 className="w-full flex items-center gap-3 text-lg"
@@ -56,7 +90,10 @@ const DashboardLayout = () => {
               </Link>
             </li>
 
-            <li className="mt-4 px-10 p-3 duration-300 cursor-pointer hover:bg-gray-700 font-semibold">
+            <li
+              id="contratos"
+              className="mt-4 px-10 p-3 duration-300 cursor-pointer hover:bg-gradient-to-r from-pink-500 to-orange-300 font-semibold"
+            >
               <Link
                 to="contratos"
                 className="w-full flex items-center gap-3 text-lg"
@@ -65,7 +102,10 @@ const DashboardLayout = () => {
               </Link>
             </li>
 
-            <li className="mt-4 px-10 p-3 duration-300 cursor-pointer hover:bg-gray-700 font-semibold">
+            <li
+              id="inventario"
+              className="mt-4 px-10 p-3 duration-300 cursor-pointer hover:bg-gradient-to-r from-pink-500 to-orange-300 font-semibold"
+            >
               <Link
                 to="inventario"
                 className="w-full flex items-center gap-3 text-lg"
@@ -74,7 +114,10 @@ const DashboardLayout = () => {
               </Link>
             </li>
 
-            <li className="mt-4 px-10 p-3 duration-300 cursor-pointer hover:bg-gray-700 font-semibold">
+            <li
+              id="inspeccion"
+              className="mt-4 px-10 p-3 duration-300 cursor-pointer hover:bg-gradient-to-r from-pink-500 to-orange-300 font-semibold"
+            >
               <Link
                 to="inspeccion"
                 className="w-full flex items-center gap-3 text-lg"
@@ -89,7 +132,10 @@ const DashboardLayout = () => {
 
         <div className="text-white">
           <ul>
-            <li className="mt-4 px-10 p-3 duration-300 cursor-pointer hover:bg-gray-700 font-semibold">
+            <li
+              id="ajustes"
+              className="mt-4 px-10 p-3 duration-300 cursor-pointer hover:bg-gradient-to-r from-pink-500 to-orange-300 font-semibold"
+            >
               <Link
                 to="ajustes"
                 className="w-full flex items-center gap-3 text-lg"
@@ -98,7 +144,7 @@ const DashboardLayout = () => {
               </Link>
             </li>
 
-            <li className="mt-4 px-10 p-3 duration-300 cursor-pointer hover:bg-gray-700 font-semibold">
+            <li className="mt-4 px-10 p-3 duration-300 cursor-pointer hover:bg-gradient-to-r from-pink-500 to-orange-300 font-semibold">
               <button
                 onClick={cerrarSesionAuth}
                 className="w-full flex items-center gap-3 text-lg"
