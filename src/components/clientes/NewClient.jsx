@@ -2,6 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import useClient from "../../hooks/useClient";
 import { useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function NewClient() {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,12 +10,13 @@ export default function NewClient() {
   const [razonSocial, setRazon] = useState("");
   const [cedula, setCedula] = useState("");
   const [ruc, setRuc] = useState("");
+  const [ruc2, setRuc2] = useState("");
   const [phone, setPhone] = useState("");
   const [celular, setCelular] = useState("");
   const [direccion, setDireccion] = useState("");
   const [serviceType, setType] = useState("");
 
-  const { createClient } = useClient();
+  const { createClient, clients } = useClient();
   const location = useLocation();
 
   function closeModal() {
@@ -40,20 +42,31 @@ export default function NewClient() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    createClient(
-      {
-        name,
-        razonSocial,
-        cedula,
-        ruc,
-        phone,
-        celular,
-        direccion,
-        serviceType,
-        servicios: [{ servicio: "Nueva Instalación", date: new Date() }],
-      },
-      initial
-    );
+    const findRuc = clients.find((e) => e.ruc === `${ruc}-${ruc2}`);
+    const findCC = clients.find((e) => e.cedula === cedula);
+
+    if (findRuc) {
+      toast.error("Este número RUC ya se encuentra registrado");
+      return;
+    } else if (findCC) {
+      toast.error("Este número Cedula ya se encuentra registrado");
+      return;
+    } else {
+      createClient(
+        {
+          name,
+          razonSocial,
+          cedula,
+          ruc: `${ruc}-${ruc2}`,
+          phone,
+          celular,
+          direccion,
+          serviceType,
+          servicios: [{ servicio: "Nueva Instalación", date: new Date() }],
+        },
+        initial
+      );
+    }
   };
 
   useEffect(() => {
@@ -147,14 +160,31 @@ export default function NewClient() {
 
                         <div className="mt-4">
                           <label>RUC</label>
-                          <input
-                            placeholder="2133123211"
-                            type="number"
-                            className="w-full border-b-2 p-1 border-pink-500 outline-none"
-                            value={ruc}
-                            onChange={(e) => setRuc(e.target.value)}
-                            required
-                          />
+                          <div className="flex gap-2">
+                            <input
+                              placeholder="1234567"
+                              type="number"
+                              className="w-full border-b-2 p-1 border-pink-500 outline-none"
+                              value={ruc}
+                              onChange={(e) =>
+                                setRuc(e.target.value.slice(0, 7))
+                              }
+                              required
+                            />
+                            -
+                            <input
+                              id="inputNumero"
+                              placeholder="8"
+                              type="number"
+                              maxLength={1}
+                              className="w-14 border-b-2 p-1 border-pink-500 outline-none"
+                              onChange={(e) =>
+                                setRuc2(e.target.value.slice(0, 1))
+                              }
+                              value={ruc2}
+                              required
+                            />
+                          </div>
                         </div>
                       </div>
 
