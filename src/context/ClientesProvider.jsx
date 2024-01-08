@@ -207,6 +207,22 @@ const ClientProvider = ({ children }) => {
       });
   };
 
+  const newInstalation = (body, initial, pendientes) => {
+    db.collection("clientes")
+      .add(body)
+      .then((client) => {
+        db.collection("pendientes")
+          .add({ ...pendientes, cliente: client.id })
+          .then(() => {
+            toast.success("Creación de cliente realizado correctamente");
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("No se pudo crear el cliente intenta nuevamente");
+      });
+  };
+
   return (
     <ClientContext.Provider
       value={{
@@ -223,6 +239,7 @@ const ClientProvider = ({ children }) => {
         createContrato,
         updateInventory,
         updateInventorySim,
+        newInstalation,
       }}
     >
       {children}

@@ -213,13 +213,6 @@ const ClientInfo = () => {
           <div className="mt-2">
             <div className="mt-4 flex items-center gap-3">
               <label className="font-bold">Imei:</label>
-              {/* <input
-                placeholder="sin registro"
-                className="border rounded border-black pl-3 w-full disabled:border-none bg-white"
-                disabled={showGps}
-                value={gpsData.imei}
-                onChange={(e) => setGps({ ...gpsData, imei: e.target.value })}
-              /> */}
 
               <div className="w-full">
                 <SelectImei setGps={setGps} gpsData={gpsData} />
@@ -228,13 +221,7 @@ const ClientInfo = () => {
 
             <div className="mt-4 flex items-center gap-3">
               <label className="font-bold">Sim Card:</label>
-              {/* <input
-                placeholder="sin registro"
-                className="border rounded border-black pl-3 w-full disabled:border-none bg-white"
-                disabled={showGps}
-                value={gpsData.sim}
-                onChange={(e) => setGps({ ...gpsData, sim: e.target.value })}
-              /> */}
+
               <div className="w-full">
                 <SelectSim setGps={setGps} gpsData={gpsData} />
               </div>

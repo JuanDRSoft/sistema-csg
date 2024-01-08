@@ -15,6 +15,7 @@ import EventInfo from "./pages/events/EventInfo";
 import "mapbox-gl/dist/mapbox-gl.css";
 import FormInventario from "./components/inventario/FormInventario";
 import FormContrato from "./components/contratos/FormContrato";
+import ServicioNuevo from "./pages/servicios/ServicioNuevo";
 
 function App() {
   return (
@@ -27,7 +28,6 @@ function App() {
             <Route path="/app" element={<DashboardLayout />}>
               <Route index element={<Home />} />
               <Route path="/app/events/:id" element={<EventInfo />} />
-
               {/* Clientes */}
               <Route path="/app/clientes" element={<Clientes />} />
               <Route path="/app/clientes/:id" element={<ClientInfo />} />
@@ -41,7 +41,10 @@ function App() {
               <Route path="/app/contratos" element={<Contratos />} />
               <Route path="/app/contratos/new" element={<FormContrato />} />
 
+              {/* Servicios */}
               <Route path="/app/servicios" element={<Servicios />} />
+              <Route path="/app/servicios/new" element={<ServicioNuevo />} />
+
               <Route path="/app/inspeccion" element={<Inspeccion />} />
               <Route path="/app/ajustes" element={<Ajustes />} />
             </Route>

@@ -13,7 +13,7 @@ const Servicios = () => {
 
       <div className="mt-10 grid lg:grid-cols-4 md:grid-cols-2 gap-10">
         <Link
-          to="/app/clientes?type=new-install"
+          to="/app/servicios/new"
           className="bg-white p-5 cursor-pointer hover:bg-gray-200 duration-200 text-center shadow rounded-xl py-10 grid items-center"
         >
           <i class="far fa-plus-square text-5xl text-blue-500"></i>

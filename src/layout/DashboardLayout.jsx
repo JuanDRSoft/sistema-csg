@@ -25,13 +25,18 @@ const DashboardLayout = () => {
 
   useEffect(() => {
     const split = location.split("/app/")[1];
+    const split2 = location.split("/app/")[1]?.split("/")[0];
 
     for (let i = 0; i < links.length; i++) {
       document.getElementById(links[i]).classList.remove("bg-gray-700");
     }
 
+    console.log(split2);
+
     if (!split) {
       document.getElementById("events").classList.add("bg-gray-700");
+    } else if (split2) {
+      document.getElementById(split2).classList.add("bg-gray-700");
     } else {
       document.getElementById(split).classList.add("bg-gray-700");
     }
@@ -41,7 +46,7 @@ const DashboardLayout = () => {
     <div>
       <div
         id="menu"
-        className="fixed w-[300px] bg-gray-950 h-screen z-10 shadow-xl md:translate-x-0 -translate-x-[350px] duration-300"
+        className="fixed w-[300px] bg-gray-950 h-screen z-30 shadow-xl md:translate-x-0 -translate-x-[350px] duration-300"
       >
         <div className="flex items-center gap-2 justify-center mt-10 relative">
           <img src={Logo} className="w-9" />
@@ -162,7 +167,7 @@ const DashboardLayout = () => {
         onClick={openMenu}
       ></div>
 
-      <div className="fixed top-0 bg-gray-500 w-full p-3 flex justify-between shadow-lg items-center">
+      <div className="fixed top-0 bg-gray-500 z-10 w-full p-3 flex justify-between shadow-lg items-center">
         <div
           onClick={openMenu}
           className="w-10 rounded-xl h-10 flex items-center justify-center bg-gray-200 cursor-pointer"
