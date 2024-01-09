@@ -29,10 +29,10 @@ const SelectSim = ({ setGps, gpsData }) => {
       const body = filter.sim.filter((event) => event.numero !== e.numero);
 
       const data = {
-        imei: gpsData.imei,
+        imei: gpsData.imei || "",
         sim: e.numero,
-        hojaServicio: gpsData.hojaServicio,
-        tecnico: gpsData.tecnico,
+        hojaServicio: gpsData.hojaServicio || "",
+        tecnico: gpsData.tecnico || "",
       };
 
       updateInventorySim(body, i.id, closeModal, data, params.id);
@@ -58,7 +58,7 @@ const SelectSim = ({ setGps, gpsData }) => {
       )}
 
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+        <Dialog as="div" className="relative z-40" onClose={closeModal}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
