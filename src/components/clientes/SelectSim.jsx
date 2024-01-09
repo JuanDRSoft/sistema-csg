@@ -53,7 +53,7 @@ const SelectSim = ({ setGps, gpsData }) => {
           onClick={openModal}
           className="w-full font-semibold shadow-lg rounded-lg bg-gradient-to-r from-blue-500 to-cyan-400 p-1 text-white text-sm"
         >
-          <i class="fas fa-plus text-sm"></i> Seleccionar Imei
+          <i class="fas fa-plus text-sm"></i> Seleccionar SIM
         </button>
       )}
 

@@ -84,14 +84,14 @@ const FormInventario = () => {
           <label className="font-medium">Nombre</label>
           <input
             className="w-full mt-2 mb-3 border rounded p-1"
-            value={product.name}
+            value={product?.name}
             onChange={(e) => setProduct({ ...product, name: e.target.value })}
           />
 
           <label className="font-medium">Descrpción</label>
           <textarea
             className="w-full mt-2 mb-3 border rounded p-1"
-            value={product.descripcion}
+            value={product?.descripcion}
             onChange={(e) =>
               setProduct({ ...product, descripcion: e.target.value })
             }
@@ -104,21 +104,21 @@ const FormInventario = () => {
           <label className="font-medium">Marca</label>
           <input
             className="w-full mt-2 mb-3 border rounded p-1"
-            value={equipo.marca}
+            value={equipo?.marca}
             onChange={(e) => setEquipo({ ...equipo, marca: e.target.value })}
           />
 
           <label className="font-medium">Modelo</label>
           <input
             className="w-full mt-2 mb-3 border rounded p-1"
-            value={equipo.modelo}
+            value={equipo?.modelo}
             onChange={(e) => setEquipo({ ...equipo, modelo: e.target.value })}
           />
 
           <label className="font-medium">Imei</label>
           <input
             className="w-full mt-2 mb-3 border rounded p-1"
-            value={equipo.imei}
+            value={equipo?.imei}
             onChange={(e) => setEquipo({ ...equipo, imei: e.target.value })}
           />
 
@@ -136,14 +136,14 @@ const FormInventario = () => {
           <label className="font-medium">Telefonia </label>
           <input
             className="w-full mt-2 mb-3 border rounded p-1"
-            value={sim.telefonia}
+            value={sim?.telefonia}
             onChange={(e) => setSim({ ...sim, telefonia: e.target.value })}
           />
 
           <label className="font-medium">Número</label>
           <input
             className="w-full mt-2 mb-3 border rounded p-1"
-            value={sim.numero}
+            value={sim?.numero}
             onChange={(e) => setSim({ ...sim, numero: e.target.value })}
           />
 
@@ -159,7 +159,7 @@ const FormInventario = () => {
       <div className="flex gap-5 mt-5">
         <div className="w-full bg-white p-5 rounded-xl shadow">
           <h1 className="font-medium mb-3">Equipos</h1>
-          {product.equipos?.map((e) => (
+          {product?.equipos?.map((e) => (
             <div className="bg-gray-100 p-3 rounded-xl text-center mb-3">
               {e.marca} - {e.modelo} - {e.imei}
             </div>
@@ -168,7 +168,7 @@ const FormInventario = () => {
 
         <div className="w-full bg-white p-5 rounded-xl shadow">
           <h1 className="font-medium mb-3">SIM CARD</h1>
-          {product.sim?.map((e) => (
+          {product?.sim?.map((e) => (
             <div className="bg-gray-100 p-3 rounded-xl text-center mb-2">
               {e.telefonia} - {e.numero}
             </div>
