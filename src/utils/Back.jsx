@@ -1,11 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const Back = ({ msg }) => {
+const Back = ({ msg, status }) => {
   const navigate = useNavigate();
 
   const handleGoBack = (e) => {
     if (msg) {
+      if (status == "Processed") {
+        navigate(-1);
+        return;
+      }
+
       var confirmacion = confirm(
         "¿Estás seguro de que deseas salir del evento sin procesar?"
       );

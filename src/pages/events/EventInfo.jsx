@@ -16,12 +16,17 @@ const EventInfo = () => {
 
   const { updateNota } = useAuth();
 
-  window.addEventListener("beforeunload", function (event) {
-    event.preventDefault();
-    var mensaje =
-      "¿Estás seguro de que deseas abandonar la página? Se perderán los cambios no guardados.";
-    event.returnValue = mensaje;
-    return mensaje;
+  window.addEventListener("beforeunload", function (eve) {
+    eve.preventDefault();
+
+    if (event?.status == "Processed") {
+      return;
+    } else {
+      var mensaje =
+        "¿Estás seguro de que deseas abandonar la página? Se perderán los cambios no guardados.";
+      eve.returnValue = mensaje;
+      return mensaje;
+    }
   });
 
   const myLocation = () => {
@@ -82,7 +87,7 @@ const EventInfo = () => {
   return (
     <div>
       <h1 className="font-bold text-3xl mb-10">
-        <Back msg={true} /> Evento
+        <Back msg={true} status={event?.status} /> Evento
       </h1>
 
       <div id="map" className="w-full h-[40vh]"></div>
