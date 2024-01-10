@@ -3,7 +3,7 @@ import React, { Fragment, useState } from "react";
 import useClient from "../../hooks/useClient";
 import { useParams } from "react-router-dom";
 
-const SelectSim = ({ setGps, gpsData }) => {
+const SelectSim = ({ setGps, gpsData, gps }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { inventory, updateInventorySim, updateGps } = useClient();
@@ -41,17 +41,18 @@ const SelectSim = ({ setGps, gpsData }) => {
 
   return (
     <div>
-      {gpsData?.sim ? (
+      {gps?.sim ? (
         <div
-          className="cursor-pointer hover:bg-gray-100 pl-1 rounded-lg"
+          className="cursor-pointer hover:bg-gray-100 text-center pl-1 rounded-lg p-1 border-2 border-pink-500"
           onClick={openModal}
         >
-          {gpsData?.sim}
+          {gps?.sim.numero}
         </div>
       ) : (
         <button
+          type="button"
           onClick={openModal}
-          className="w-full font-semibold shadow-lg rounded-lg bg-gradient-to-r from-blue-500 to-cyan-400 p-1 text-white text-sm"
+          className="w-full font-semibold shadow-lg rounded-lg bg-gradient-to-r from-blue-500 to-cyan-400 p-2 text-white text-sm"
         >
           <i class="fas fa-plus text-sm"></i> Seleccionar SIM
         </button>
@@ -100,7 +101,10 @@ const SelectSim = ({ setGps, gpsData }) => {
                       <div>
                         {i.sim?.map((e) => (
                           <div
-                            onClick={() => selectInventory(i, e)}
+                            onClick={() => {
+                              setGps({ ...gps, sim: { ...e, id: i.id } });
+                              closeModal();
+                            }}
                             className="flex bg-gray-100 p-2 mb-2 rounded-xl cursor-pointer hover:bg-gray-200"
                           >
                             <p className="w-full">{e.numero}</p>

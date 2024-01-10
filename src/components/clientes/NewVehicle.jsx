@@ -2,6 +2,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import useClient from "../../hooks/useClient";
 import { useParams } from "react-router-dom";
+import SelectImei from "./SelectImei";
+import SelectSim from "./SelectSim";
 
 const NewVehicle = ({ isOpen, closeModal, vehicle, vehiculos }) => {
   const [numeroPoliza, setPoliza] = useState("");
@@ -11,9 +13,15 @@ const NewVehicle = ({ isOpen, closeModal, vehicle, vehiculos }) => {
   const [orden, setOrden] = useState("");
   const [instalacion, setInstalacion] = useState(new Date());
   const [desde, setDesde] = useState(new Date());
+  const [gps, setGps] = useState({
+    hojaServicio: "",
+    imei: "",
+    sim: "",
+    tecnico: "",
+  });
   const [hasta, setHasta] = useState(new Date());
 
-  const { updateClient } = useClient();
+  const { updateVehicles } = useClient();
   const params = useParams();
 
   useEffect(() => {
@@ -26,6 +34,7 @@ const NewVehicle = ({ isOpen, closeModal, vehicle, vehiculos }) => {
       setInstalacion(vehicle.instalacion);
       setDesde(vehicle.desde);
       setHasta(vehicle.hasta);
+      setGps(vehicle.gps);
     }
   }, [vehicle]);
 
@@ -38,6 +47,13 @@ const NewVehicle = ({ isOpen, closeModal, vehicle, vehiculos }) => {
     setInstalacion("");
     setDesde("");
     setHasta("");
+    setGps({
+      hojaServicio: "",
+      imei: "",
+      sim: "",
+      tecnico: "",
+    });
+    closeModal();
   };
 
   const handleSubmit = (e) => {
@@ -58,10 +74,11 @@ const NewVehicle = ({ isOpen, closeModal, vehicle, vehiculos }) => {
           chasis,
           chapa,
           orden,
+          gps,
         },
       ];
 
-      updateClient(
+      updateVehicles(
         body,
         initial,
         "Datos de vehiculo editados correctamente",
@@ -79,10 +96,11 @@ const NewVehicle = ({ isOpen, closeModal, vehicle, vehiculos }) => {
           chasis,
           chapa,
           orden,
+          gps,
         },
       ];
 
-      updateClient(
+      updateVehicles(
         body,
         initial,
         "Datos de vehiculo añadidos correctamente",
@@ -94,7 +112,7 @@ const NewVehicle = ({ isOpen, closeModal, vehicle, vehiculos }) => {
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+        <Dialog as="div" className="relative z-40" onClose={closeModal}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -223,6 +241,40 @@ const NewVehicle = ({ isOpen, closeModal, vehicle, vehiculos }) => {
                           value={orden}
                           onChange={(e) => setOrden(e.target.value)}
                           required
+                        />
+                      </div>
+
+                      <div className="mt-3">
+                        <label>IMEI</label>
+                        <SelectImei setGps={setGps} gps={gps} />
+                      </div>
+
+                      <div className="mt-3">
+                        <label>SIM</label>
+                        <SelectSim setGps={setGps} gps={gps} />
+                      </div>
+
+                      <div className="mt-3">
+                        <label>Tecnico</label>
+                        <input
+                          placeholder="sin registro"
+                          className="w-full border-b-2 p-1 border-pink-500 outline-none"
+                          value={gps.tecnico}
+                          onChange={(e) =>
+                            setGps({ ...gps, tecnico: e.target.value })
+                          }
+                        />
+                      </div>
+
+                      <div className="mt-3">
+                        <label>Hoja de servicio</label>
+                        <input
+                          placeholder="sin registro"
+                          className="w-full border-b-2 p-1 border-pink-500 outline-none"
+                          value={gps.hojaServicio}
+                          onChange={(e) =>
+                            setGps({ ...gps, hojaServicio: e.target.value })
+                          }
                         />
                       </div>
 

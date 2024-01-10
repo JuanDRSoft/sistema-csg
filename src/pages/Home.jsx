@@ -19,7 +19,7 @@ const Home = () => {
           fechaCreacion.getMonth() === fechaActual.getMonth() &&
           fechaCreacion.getFullYear() === fechaActual.getFullYear();
 
-        return esFechaDeHoy;
+        return esFechaDeHoy && (e.status == "Unprocessed" || e.status == null);
       });
 
       setData(filter);
@@ -33,7 +33,10 @@ const Home = () => {
         const fechaCreacion = new Date(e.time);
         const diferenciaTiempo = fechaActual - fechaCreacion;
         const diferenciaHoras = diferenciaTiempo / (1000 * 60 * 60);
-        return diferenciaHoras > 24;
+        return (
+          diferenciaHoras > 24 &&
+          (e.status == "Unprocessed" || e.status == null)
+        );
       });
 
       setData(filter);

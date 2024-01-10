@@ -69,30 +69,40 @@ const ClientProvider = ({ children }) => {
       });
   };
 
-  const updateClient = (body, initial, succes, id) => {
+  const updateVehicles = (body, initial, succes, id) => {
     db.collection("clientes")
       .doc(id)
       .update({ vehiculos: body })
       .then(() => {
-        toast.success(succes);
-        initial();
+        console.log(body);
+        const filterImei = inventory.find((e) => e.id == body[0].gps.imei.id);
+
+        const imei = filterImei.equipos.filter(
+          (event) => event.imei !== body[0].gps.imei.imei
+        );
+
+        db.collection("inventario")
+          .doc(body[0].gps.imei.id)
+          .update({ equipos: imei })
+          .then(() => {
+            const filterSim = inventory.find((e) => e.id == body[0].gps.sim.id);
+
+            const sim = filterSim.sim.filter(
+              (event) => event.numero !== body[0].gps.sim.numero
+            );
+
+            db.collection("inventario")
+              .doc(body[0].gps.sim.id)
+              .update({ sim: sim })
+              .then(() => {
+                toast.success(succes);
+                initial();
+              });
+          });
       })
       .catch((error) => {
         console.log(error);
         toast.error("No se pudo editar el vehiculo intenta nuevamente");
-      });
-  };
-
-  const updateGps = (body, id) => {
-    db.collection("clientes")
-      .doc(id)
-      .update({ gps: body })
-      .then(() => {
-        toast.success("Gps modificado correctamente");
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error("No se pudo editar el gps intenta nuevamente");
       });
   };
 
@@ -228,8 +238,7 @@ const ClientProvider = ({ children }) => {
       value={{
         createClient,
         clients,
-        updateClient,
-        updateGps,
+        updateVehicles,
         updateNota,
         deleteClient,
         inventory,

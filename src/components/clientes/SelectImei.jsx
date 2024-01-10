@@ -3,7 +3,7 @@ import React, { Fragment, useState } from "react";
 import useClient from "../../hooks/useClient";
 import { useParams } from "react-router-dom";
 
-const SelectImei = ({ setGps, gpsData }) => {
+const SelectImei = ({ setGps, gpsData, gps }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { inventory, updateInventory, updateGps } = useClient();
@@ -22,38 +22,35 @@ const SelectImei = ({ setGps, gpsData }) => {
     var confirmacion = confirm(
       "¿Estás seguro de que deseas seleccionar este GPS?, este saldra del inventario"
     );
-
     if (confirmacion) {
       const filter = inventory.find((e) => e.id == i.id);
-
       const body = filter.equipos.filter((event) => event.imei !== e.imei);
-
       const data = {
         imei: e.imei,
         sim: gpsData.sim || "",
         hojaServicio: gpsData.hojaServicio || "",
         tecnico: gpsData.tecnico || "",
       };
-
       updateInventory(body, i.id, closeModal, data, params.id);
     }
   };
 
   return (
     <div>
-      {gpsData?.imei ? (
+      {gps?.imei ? (
         <div
-          className="cursor-pointer hover:bg-gray-100 pl-1 rounded-lg"
+          className="cursor-pointer hover:bg-gray-100 text-center pl-1 rounded-lg p-1 border-2 border-pink-500"
           onClick={openModal}
         >
-          {gpsData?.imei}
+          {gps?.imei.imei}
         </div>
       ) : (
         <button
+          type="button"
           onClick={openModal}
-          className="w-full font-semibold shadow-lg rounded-lg bg-gradient-to-r from-blue-500 to-cyan-400 p-1 text-white text-sm"
+          className="w-full font-semibold shadow-lg rounded-lg bg-gradient-to-r from-blue-500 to-cyan-400 p-2 text-white text-sm"
         >
-          <i class="fas fa-plus text-sm"></i> Seleccionar Imei
+          <i class="fas fa-plus text-sm"></i> Seleccionar IMEI
         </button>
       )}
 
@@ -101,7 +98,10 @@ const SelectImei = ({ setGps, gpsData }) => {
                       <div>
                         {i.equipos?.map((e) => (
                           <div
-                            onClick={() => selectInventory(i, e)}
+                            onClick={() => {
+                              setGps({ ...gps, imei: { ...e, id: i.id } });
+                              closeModal();
+                            }}
                             className="flex bg-gray-100 p-2 mb-2 rounded-xl cursor-pointer hover:bg-gray-200"
                           >
                             <p className="w-full">{e.marca}</p>
