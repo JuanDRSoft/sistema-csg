@@ -11,6 +11,7 @@ const AuthProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState({});
   const [usuarioData, setUsuarioData] = useState({});
   const [events, setEvents] = useState([]);
+  const [colaboradores, setColaboradores] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -53,6 +54,18 @@ const AuthProvider = ({ children }) => {
         console.error("Error al escuchar cambios en el documento:", error);
       }
     );
+
+    db.collection("colaboradores").onSnapshot(manejarSnapshotAuth);
+
+    function manejarSnapshotAuth(snapshot) {
+      let platillos = snapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
+      });
+      setColaboradores(platillos);
+    }
 
     db.collection("events").orderBy("time").onSnapshot(manejarSnapshot);
 
@@ -124,6 +137,7 @@ const AuthProvider = ({ children }) => {
         onLogin,
         events,
         updateNota,
+        colaboradores,
       }}
     >
       {children}

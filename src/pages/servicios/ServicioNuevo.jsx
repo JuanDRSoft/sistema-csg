@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import useClient from "../../hooks/useClient";
 import useAuth from "../../hooks/useAuth";
+import SelectImei from "../../components/clientes/SelectImei";
+import SelectSim from "../../components/clientes/SelectSim";
+import { toast } from "react-toastify";
 
 const ServicioNuevo = () => {
   const [name, setName] = useState("");
@@ -13,6 +16,13 @@ const ServicioNuevo = () => {
   const [direccion, setDireccion] = useState("");
   const [serviceType, setType] = useState("");
 
+  const [gps, setGps] = useState({
+    hojaServicio: "",
+    imei: "",
+    sim: "",
+    tecnico: "",
+  });
+
   const [numeroPoliza, setPoliza] = useState("");
   const [vehiculo, setVehiculo] = useState("");
   const [chasis, setChasis] = useState("");
@@ -24,7 +34,7 @@ const ServicioNuevo = () => {
 
   const [user, setUser] = useState("");
 
-  const { authUser } = useAuth();
+  const { authUser, colaboradores } = useAuth();
   const { clients, newInstalation } = useClient();
 
   const initial = () => {
@@ -40,6 +50,10 @@ const ServicioNuevo = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if ([user].includes("")) {
+      toast.error("Selecciona un instalador antes de continuar");
+    }
 
     const findRuc = clients.find((e) => e.ruc === `${ruc}-${ruc2}`);
     const findCC = clients.find((e) => e.cedula === cedula);
@@ -70,6 +84,7 @@ const ServicioNuevo = () => {
             chasis,
             chapa,
             orden,
+            gps,
           },
         ],
       };
@@ -319,15 +334,52 @@ const ServicioNuevo = () => {
               required
             />
           </div>
+
+          <div className="mt-3">
+            <label>IMEI</label>
+            <SelectImei setGps={setGps} gps={gps} />
+          </div>
+
+          <div className="mt-3">
+            <label>SIM</label>
+            <SelectSim setGps={setGps} gps={gps} />
+          </div>
+
+          <div className="mt-3">
+            <label>Tecnico</label>
+            <input
+              placeholder="sin registro"
+              className="w-full border-b-2 p-1 border-pink-500 outline-none"
+              value={gps.tecnico}
+              onChange={(e) => setGps({ ...gps, tecnico: e.target.value })}
+            />
+          </div>
+
+          <div className="mt-3">
+            <label>Hoja de servicio</label>
+            <input
+              placeholder="sin registro"
+              className="w-full border-b-2 p-1 border-pink-500 outline-none"
+              value={gps.hojaServicio}
+              onChange={(e) => setGps({ ...gps, hojaServicio: e.target.value })}
+            />
+          </div>
         </div>
 
         <div>
           <p className="mb-5">Asignar un instalador:</p>
 
-          <div className="bg-white p-5 flex justify-between rounded-xl shadow">
-            <p>Juan Andres Rengifo</p>
-            <p>juanA@gmail.com</p>
-          </div>
+          {colaboradores.map((e) => (
+            <div
+              onClick={() => setUser(e)}
+              className={`cursor-pointer hover:bg-gray-100 ${
+                user.id == e.id ? "bg-gray-100" : "bg-white"
+              } p-5 flex justify-between rounded-xl shadow mb-2`}
+            >
+              <p>{e.name}</p>
+              <p>{e.email}</p>
+            </div>
+          ))}
         </div>
 
         <div className="absolute w-full flex justify-center bottom-5">
