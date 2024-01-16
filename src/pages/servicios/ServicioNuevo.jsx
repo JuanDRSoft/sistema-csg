@@ -335,35 +335,39 @@ const ServicioNuevo = () => {
             />
           </div>
 
-          <div className="mt-3">
-            <label>IMEI</label>
-            <SelectImei setGps={setGps} gps={gps} />
-          </div>
-
-          <div className="mt-3">
-            <label>SIM</label>
-            <SelectSim setGps={setGps} gps={gps} />
-          </div>
-
-          <div className="mt-3">
-            <label>Tecnico</label>
-            <input
-              placeholder="sin registro"
-              className="w-full border-b-2 p-1 border-pink-500 outline-none"
-              value={gps.tecnico}
-              onChange={(e) => setGps({ ...gps, tecnico: e.target.value })}
-            />
-          </div>
-
-          <div className="mt-3">
-            <label>Hoja de servicio</label>
-            <input
-              placeholder="sin registro"
-              className="w-full border-b-2 p-1 border-pink-500 outline-none"
-              value={gps.hojaServicio}
-              onChange={(e) => setGps({ ...gps, hojaServicio: e.target.value })}
-            />
-          </div>
+          {"" && (
+            <>
+              {" "}
+              <div className="mt-3">
+                <label>IMEI</label>
+                <SelectImei setGps={setGps} gps={gps} />
+              </div>
+              <div className="mt-3">
+                <label>SIM</label>
+                <SelectSim setGps={setGps} gps={gps} />
+              </div>
+              <div className="mt-3">
+                <label>Tecnico</label>
+                <input
+                  placeholder="sin registro"
+                  className="w-full border-b-2 p-1 border-pink-500 outline-none"
+                  value={gps.tecnico}
+                  onChange={(e) => setGps({ ...gps, tecnico: e.target.value })}
+                />
+              </div>
+              <div className="mt-3">
+                <label>Hoja de servicio</label>
+                <input
+                  placeholder="sin registro"
+                  className="w-full border-b-2 p-1 border-pink-500 outline-none"
+                  value={gps.hojaServicio}
+                  onChange={(e) =>
+                    setGps({ ...gps, hojaServicio: e.target.value })
+                  }
+                />
+              </div>
+            </>
+          )}
         </div>
 
         <div>

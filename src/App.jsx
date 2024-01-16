@@ -16,6 +16,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import FormInventario from "./components/inventario/FormInventario";
 import FormContrato from "./components/contratos/FormContrato";
 import ServicioNuevo from "./pages/servicios/ServicioNuevo";
+import Register from "./auth/Register";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <ClientProvider>
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route path="/register/:id" element={<Register />} />
 
             <Route path="/app" element={<DashboardLayout />}>
               <Route index element={<Home />} />

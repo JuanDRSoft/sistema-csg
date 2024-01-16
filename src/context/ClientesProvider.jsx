@@ -218,13 +218,51 @@ const ClientProvider = ({ children }) => {
   };
 
   const newInstalation = (body, initial, pendientes) => {
+    const simfilter = inventory.find(
+      (e) => e.id == body.vehiculos[0].gps.sim.id
+    );
+    const simDelete = simfilter.sim.filter(
+      (event) => event.numero !== body.vehiculos[0].gps.sim.numero
+    );
+
+    const filter = inventory.find((e) => e.id == body.vehiculos[0].gps.imei.id);
+    const imeiDelete = filter.equipos.filter(
+      (event) => event.imei !== body.vehiculos[0].gps.imei.imei
+    );
+
+    console.log(simDelete, imeiDelete);
+
     db.collection("clientes")
       .add(body)
       .then((client) => {
-        db.collection("pendientes")
-          .add({ ...pendientes, cliente: client.id })
+        //Equipos
+        db.collection("inventario")
+          .doc(filter.id)
+          .update({ equipos: imeiDelete })
           .then(() => {
-            toast.success("Creación de cliente realizado correctamente");
+            //Sim
+            db.collection("inventario")
+              .doc(simfilter.id)
+              .update({ sim: simDelete })
+              .then(() => {
+                // Add pendientes
+                db.collection("pendientes")
+                  .add({ ...pendientes, cliente: client.id })
+                  .then(() => {
+                    toast.success(
+                      "Creación de cliente realizada correctamente"
+                    );
+                  });
+                initial();
+              })
+              .catch((error) => {
+                console.log(error);
+                toast.error("No se pudo seleccionar SIM intenta nuevamente");
+              });
+          })
+          .catch((error) => {
+            console.log(error);
+            toast.error("No se pudo seleccionar SIM intenta nuevamente");
           });
       })
       .catch((error) => {
