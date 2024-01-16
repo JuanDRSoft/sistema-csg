@@ -74,9 +74,11 @@ const AddUser = () => {
           </form>
         </div>
         <div className="bg-white p-5 w-full rounded-xl shadow">
-          {colaboradores.map((e) => (
-            <CardUser user={e} />
-          ))}
+          {colaboradores
+            .filter((e) => e.registered)
+            .map((e) => (
+              <CardUser user={e} />
+            ))}
         </div>
       </div>
     </div>
