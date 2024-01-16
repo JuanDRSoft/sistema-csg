@@ -74,11 +74,15 @@ const AddUser = () => {
           </form>
         </div>
         <div className="bg-white p-5 w-full rounded-xl shadow">
-          {colaboradores
-            .filter((e) => e.registered)
-            .map((e) => (
-              <CardUser user={e} />
-            ))}
+          {colaboradores.filter((e) => e.registered).length ? (
+            colaboradores
+              .filter((e) => e.registered)
+              .map((e) => <CardUser user={e} />)
+          ) : (
+            <div className="h-full flex items-center justify-center">
+              <p className="font-medium">Aun no hay usuarios registrados</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
