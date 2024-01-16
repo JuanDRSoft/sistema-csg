@@ -21,7 +21,7 @@ const AuthProvider = ({ children }) => {
         setAuthUser(user);
       } else {
         // No hay usuario logueado
-        navigate("/");
+        // navigate("/");
       }
     });
   }, []);
@@ -55,7 +55,7 @@ const AuthProvider = ({ children }) => {
       }
     );
 
-    db.collection("colaboradores").onSnapshot(manejarSnapshotAuth);
+    db.collection("usuarios").onSnapshot(manejarSnapshotAuth);
 
     function manejarSnapshotAuth(snapshot) {
       let platillos = snapshot.docs.map((doc) => {

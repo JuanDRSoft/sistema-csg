@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import Logo from "/logo.svg";
 import Profile from "/profile-placeholder.jpg";
 import useAuth from "../hooks/useAuth";
 
 const DashboardLayout = () => {
-  const { cerrarSesionAuth } = useAuth();
+  const { cerrarSesionAuth, authUser } = useAuth();
   const location = useLocation().pathname;
+  const navigate = useNavigate();
 
   const links = [
     "events",
@@ -17,6 +18,12 @@ const DashboardLayout = () => {
     "inspeccion",
     "ajustes",
   ];
+
+  useEffect(() => {
+    if (!authUser.uid) {
+      navigate("/");
+    }
+  }, [authUser]);
 
   const openMenu = () => {
     document.getElementById("menu").classList.toggle("-translate-x-[350px]");
@@ -176,7 +183,7 @@ const DashboardLayout = () => {
         </div>
 
         <div className="flex gap-3 items-center">
-          <p className="font-bold text-white">Usuario</p>
+          <p className="font-bold text-white">{authUser.displayName}</p>
 
           <div className="overflow-hidden w-10 h-10 rounded-full">
             <img src={Profile} />

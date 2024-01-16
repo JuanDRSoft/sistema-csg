@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BASE_URL, ocupaciones } from "../../utils/Data";
-import { auth } from "../../../firebase";
+import { auth, db } from "../../../firebase";
 import axios from "axios";
 import { toast } from "react-toastify";
+import useAuth from "../../hooks/useAuth";
+import CardUser from "./CardUser";
 
 const AddUser = () => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [rol, setRol] = useState("");
+
+  const { colaboradores } = useAuth();
 
   const handleRegistro = async (e) => {
     e.preventDefault();
@@ -65,11 +69,15 @@ const AddUser = () => {
               type="submit"
               className="mt-2 bg-gradient-to-r from-blue-500 to-cyan-300 w-full p-1 rounded-xl shadow font-semibold text-white"
             >
-              Agregar Usuario
+              Enviar Invitación
             </button>
           </form>
         </div>
-        <div className="bg-white p-5 w-full rounded-xl shadow"></div>
+        <div className="bg-white p-5 w-full rounded-xl shadow">
+          {colaboradores.map((e) => (
+            <CardUser user={e} />
+          ))}
+        </div>
       </div>
     </div>
   );
